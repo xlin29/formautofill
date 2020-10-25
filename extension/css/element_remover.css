@@ -1,0 +1,136 @@
+#warning {
+    background-color: rgba(20,20,20,0.8);
+    min-height: 26px;
+    font-size: 14px;
+    color: #fff;
+    line-height: 26px;
+    padding: 8px 0 8px 30px;
+    font-family: "Trebuchet MS",Helvetica,sans-serif;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+}
+#end{
+    color: #fff;
+    margin-right: 20px;
+}
+#close {
+    position: absolute;
+    right: 1.5%;
+    display: inline-block;
+    cursor: pointer;
+    height: 20px;
+    width: 20px;
+    margin: -5px 0 0 0;
+    font-weight: bold;
+}
+#close:hover {
+    color: #FFF;
+}
+#strict {
+    background-color: #F1D600;
+    color: #000;
+    display: inline-block;
+    border-radius: 5px;
+    padding: 0 20px;
+    cursor: pointer;
+    margin: 0 0px 0 10px;
+}
+#strict:hover {
+    background-color: #E0C91F;
+}
+/*moreinfo*/
+#popup {
+    position: relative;
+    color: #4B8EE7;
+    display: inline-block;
+    cursor: pointer;
+  }
+/*additional moreinfo*/
+#addPopup {
+    position: relative;
+    color: #4B8EE7;
+    display: inline-block;
+    cursor: pointer;
+    margin: 0 20px 0 10px;;
+  }
+  /* The actual popup */
+#popuptext {
+    font-size: 14px;
+    background-color: #555;
+    color: #fff;
+    text-align: left;
+    border-radius: 6px;
+    padding: 8px 4px;
+    position: absolute;
+    z-index: 9999;
+    bottom: 100%;
+    margin-right:80px;
+    position: absolute;
+    right: 0px;
+    width: 450px;
+    height: 200px;
+    overflow: scroll;
+}
+#addPopuptext{
+    font-size: 14px;
+    background-color: #555;
+    color: #fff;
+    text-align: left;
+    border-radius: 6px;
+    padding: 8px 4px;
+    position: absolute;
+    z-index: 9999;
+    bottom: 100%;
+    width: 450px;
+    height: 200px;
+    overflow: scroll;
+    margin-right:80px;
+    position: absolute;
+    right: 0px;
+}
+/* Popup arrow */
+#popuptext::after {
+content: "";
+position: absolute;
+top: 100%;
+margin-left: -5px;
+border-width: 5px;
+border-style: solid;
+border-color: #555 transparent transparent transparent;
+}
+
+#closeMore{
+    position: absolute;
+    color: white;
+    top: 15px;
+    right: 15px;
+    display: inline-block;
+    cursor: pointer;
+    height: 20px;
+    width: 20px;
+    margin: -5px 0 0 0;
+    font-weight: bold;
+}
+
+
+#closeAdd {
+    position: absolute;
+    color: white;
+    top: 15px;
+    right: 15px;
+    display: inline-block;
+    cursor: pointer;
+    height: 20px;
+    width: 20px;
+    margin: -5px 0 0 0;
+    font-weight: bold;
+}
+#closeMore:hover {
+    color: #FFF;
+}
+#closeAdd:hover {
+    color: #FFF;
+}

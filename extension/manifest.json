@@ -1,0 +1,37 @@
+{
+  "name": "Hidden Detector",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "description": "A chrome extension for blocking deceptive autofill",
+  "icons": {
+    "16": "icons/16.png",
+    "48": "icons/48.png",
+    "64": "icons/64.png",
+    "128": "icons/128.png",
+    "256": "icons/256.png"
+  },
+  "browser_action": {
+    "default_title": "Autofill Blocker",
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "scripts": ["js/background.js"],
+    "persistent": true
+    },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["js/detector.js"],
+      "css": ["css/element_remover.css"],
+      "run_at": "document_end",
+      "all_frames": false
+    }
+  ],
+  "author": "pilia, xlin",
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "background",
+    "storage"
+  ]
+}

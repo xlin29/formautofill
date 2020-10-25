@@ -1,0 +1,85 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.topnav {
+    background-color:#34A7C0;
+    text-align: center;
+    color: #f2f2f2;
+    font-size: 15px;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0px;
+    height: 25px;
+}
+
+p{
+    padding: 3px;
+}
+
+html {
+    height: 80px;
+    width: 200px;
+}
+
+body {
+    width: 100%;
+    background-color:white;
+    margin:0px !important;
+    padding: 0px;
+}
+.mode{
+    padding-top: 10px;
+}
+
+.modeswitch {
+    position: relative;
+    width: 135px;
+    margin-left: auto;
+    margin-right: auto;
+    vertical-align: middle;
+}
+.modeswitch-checkbox {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+.modeswitch-label {
+    display: block; overflow: hidden; cursor: pointer;
+    border: 2px solid #999999; border-radius: 20px;
+}
+.modeswitch-inner {
+    display: block; width: 200%; margin-left: -100%;
+    transition: margin 0.3s ease-in 0s;
+}
+.modeswitch-inner:before, .modeswitch-inner:after {
+    display: block; float: left; width: 50%; height: 30px; padding: 0; line-height: 30px;
+    font-size: 14px; color: white; font-family: Arial, Helvetica, sans-serif; font-weight: bold;
+    box-sizing: border-box;
+}
+.modeswitch-inner:before {
+    content: "LAX";
+    padding-left: 10px;
+    background-color:#34A7C0; color: #FFFFFF;
+}
+.modeswitch-inner:after {
+    content: "STRICT";
+    padding-right: 10px;
+    background-color: #F01A65; color: #FFFFFF;
+    text-align: right;
+}
+.modeswitch-switch {
+    display: block; width: 18px; margin: 6px;
+    background: #FFFFFF;
+    position: absolute; top: 0; bottom: 0;
+    right: 101px;
+    border: 2px solid #999999; border-radius: 20px;
+    transition: all 0.3s ease-in 0s;
+}
+.modeswitch-checkbox:checked + .modeswitch-label .modeswitch-inner {
+    margin-left: 0;
+}
+.modeswitch-checkbox:checked + .modeswitch-label .modeswitch-switch {
+    right: 0px;
+}
+
