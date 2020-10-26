@@ -1,12 +1,6 @@
 # Crawler
 The crawler is ruuning on top of Selenium and an intrumented chromium/firefox.
 
-## Run
-run the script with the link to form page. e.g.,
-```
-python3 chrome_autofill_visibility.py "https://help.usenet.nl/SubmitTicket/"
-```
-
 We made slight changes in browsers' source code to log the autofill information, including autofillable fields and autofill types.
 
 ## Chromimum:
