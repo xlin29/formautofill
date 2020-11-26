@@ -35,4 +35,11 @@ You can read more about the details of our work in the following research paper:
 
 **Fill in the Blanks: Empirical Analysis of the Privacy Threats of Browser Form Autofill**
 
-If you use our code, data, or otherwise conduct research related to our work, please cite our paper [PDF](https://www2.cs.uic.edu/~browser-autofill/files/autofill-ccs20.pdf):
+If you use our code, data, or otherwise conduct research related to our work, please cite our paper [PDF](https://dl.acm.org/doi/pdf/10.1145/3372297.3417271):
+@inproceedings{lin2020fill,
+  title={Fill in the Blanks: Empirical Analysis of the Privacy Threats of Browser Form Autofill},
+  author={Lin, Xu and Ilia, Panagiotis and Polakis, Jason},
+  booktitle={Proceedings of the 2020 ACM SIGSAC Conference on Computer and Communications Security},
+  pages={507--519},
+  year={2020}
+}
