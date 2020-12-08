@@ -1,5 +1,5 @@
 # Crawler
-The crawler is ruuning on top of Selenium and an intrumented chromium/firefox.
+The crawler is runing on top of Selenium and an intrumented chromium/firefox.
 
 We made slight changes in browsers' source code to log the autofill information, including autofillable fields and autofill types.
 
