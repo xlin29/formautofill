@@ -6,7 +6,9 @@
     - [Infer credit card number from 100k candidate values](#Infer-credit-card-number-from-100k-candidate-values)
     - [Infer phone number from 100k candidate values](#Infer-phone-number-from-100k-candidate-values)
 - [Extension](#Extension)
-- [Crawler](#crawler)
+- [Crawling](#Crawling)
+    - [Patch](#Patch)
+    - [Crawler](#Crawler)
 - [Data](#data)
 - [Research Paper](#Research-Paper)
 
@@ -86,8 +88,12 @@ Set the phone number between [1234000000 - 1234100866].
 ## Extension
 A chrome extension that detects autofillable, hidden elements in a visitied page. It shows a warning message on **lax mode**, and remove these hidden elements on **strict mode**.
 
-## Crawler
-The crawler is running on top of Selenium and an intrumented chromium/firefox.
+## Crawling
+
+### Patch
+We provide the source code modification as a patch to Chromium.
+### Crawler
+The crawler is running on top of Selenium and an intrumented Chromium (Version 81.0.4009.0) / Firefox (Nightly Version 74).
 
 ## Data
 In a crawl conducted during November 2019, these web pages were found to have hidden HTML elements autofilled by Chrome/Firefox.
@@ -98,6 +104,7 @@ You can read more about the details of our work in the following research paper:
 **Fill in the Blanks: Empirical Analysis of the Privacy Threats of Browser Form Autofill**
 
 If you use our code, data, or otherwise conduct research related to our work, please cite our paper [PDF](https://dl.acm.org/doi/pdf/10.1145/3372297.3417271):
+``` tex
 @inproceedings{lin2020fill,
   title={Fill in the Blanks: Empirical Analysis of the Privacy Threats of Browser Form Autofill},
   author={Lin, Xu and Ilia, Panagiotis and Polakis, Jason},
@@ -105,3 +112,4 @@ If you use our code, data, or otherwise conduct research related to our work, pl
   pages={507--519},
   year={2020}
 }
+```

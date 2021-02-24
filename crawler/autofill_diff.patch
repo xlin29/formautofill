@@ -1,0 +1,156 @@
+diff --git a/chrome/browser/ui/autofill/autofill_popup_controller_impl.cc b/chrome/browser/ui/autofill/autofill_popup_controller_impl.cc
+index db1b02000e..fc1978374b 100644
+--- a/chrome/browser/ui/autofill/autofill_popup_controller_impl.cc
++++ b/chrome/browser/ui/autofill/autofill_popup_controller_impl.cc
+@@ -95,7 +95,7 @@ void AutofillPopupControllerImpl::Show(
+   SetValues(suggestions);
+   DCHECK_EQ(suggestions_.size(), elided_values_.size());
+   DCHECK_EQ(suggestions_.size(), elided_labels_.size());
+-
++  autoselect_first_suggestion = true;
+   bool just_created = false;
+   if (!view_) {
+     view_ = AutofillPopupView::Create(GetWeakPtr());
+diff --git a/components/autofill/content/renderer/form_autofill_util.cc b/components/autofill/content/renderer/form_autofill_util.cc
+index f59232a537..52b3daeb48 100644
+--- a/components/autofill/content/renderer/form_autofill_util.cc
++++ b/components/autofill/content/renderer/form_autofill_util.cc
+@@ -1095,6 +1095,12 @@ void ForEachMatchingFormField(const WebFormElement& form_element,
+                               const Callback& callback) {
+   std::vector<WebFormControlElement> control_elements =
+       ExtractAutofillableElementsInForm(form_element);
++  LOG(WARNING) << "----------FORMDATA----------" << "\n";
++  int field_len = data.fields.size();
++  LOG(WARNING) << field_len;
++  for (int i = 0; i < field_len; i++){
++	  LOG(WARNING) << "formfield---" << data.fields.at(i) << "\n";
++  }
+   ForEachMatchingFormFieldCommon(&control_elements, initiating_element, data,
+                                  filters, force_override, callback);
+ }
+@@ -1107,6 +1113,12 @@ void ForEachMatchingUnownedFormField(const WebElement& initiating_element,
+                                      FieldFilterMask filters,
+                                      bool force_override,
+                                      const Callback& callback) {
++  LOG(WARNING) << "----------UNOWNEDFORM----------" << "\n";
++  int field_len = data.fields.size();
++  LOG(WARNING) << field_len;
++  for (int i = 0; i < field_len; i++){
++	  LOG(WARNING) << "unownedformfield---" << data.fields.at(i) << "\n";
++  }
+   if (initiating_element.IsNull())
+     return;
+ 
+@@ -1127,6 +1139,8 @@ void FillFormField(const FormFieldData& data,
+                    bool is_initiating_node,
+                    blink::WebFormControlElement* field) {
+   // Nothing to fill.
++  LOG(WARNING) << "----------FILLFORMFIELD----------" << "\n";
++  LOG(WARNING) << "fill---" << data << "\n";
+   if (data.value.empty())
+     return;
+ 
+@@ -1174,7 +1188,8 @@ void PreviewFormField(const FormFieldData& data,
+ 
+   if (!data.is_autofilled)
+     return;
+-
++  LOG(WARNING) << "----------PREVIEWFORMFIELD----------" <<"\n";
++  LOG(WARNING) << "preview--" << data;
+   // Preview input, textarea and select fields. For input fields, excludes
+   // checkboxes and radio buttons, as there is no provision for
+   // setSuggestedCheckedValue in WebInputElement.
+diff --git a/components/autofill/core/browser/autofill_field.cc b/components/autofill/core/browser/autofill_field.cc
+index 1381fb7c80..dd3ea3a136 100644
+--- a/components/autofill/core/browser/autofill_field.cc
++++ b/components/autofill/core/browser/autofill_field.cc
+@@ -1,5 +1,4 @@
+ // Copyright 2013 The Chromium Authors. All rights reserved.
+-// Use of this source code is governed by a BSD-style license that can be
+ // found in the LICENSE file.
+ 
+ #include "components/autofill/core/browser/autofill_field.h"
+@@ -38,6 +37,7 @@ std::unique_ptr<AutofillField> AutofillField::CreateForPasswordManagerUpload(
+ }
+ 
+ void AutofillField::set_heuristic_type(ServerFieldType type) {
++  LOG(WARNING) <<"set_type" <<type <<"\n";
+   if (type >= 0 && type < MAX_VALID_FIELD_TYPE &&
+       type != FIELD_WITH_DEFAULT_VALUE) {
+     heuristic_type_ = type;
+@@ -54,7 +54,7 @@ void AutofillField::set_server_type(ServerFieldType type) {
+   // Chrome no longer supports fax numbers, but the server still does.
+   if (type >= PHONE_FAX_NUMBER && type <= PHONE_FAX_WHOLE_NUMBER)
+     return;
+-
++ 
+   server_type_ = type;
+   overall_type_ = AutofillType(NO_SERVER_DATA);
+ }
+diff --git a/components/autofill/core/browser/autofill_manager.cc b/components/autofill/core/browser/autofill_manager.cc
+index 2afe2d4dfa..3730c03823 100644
+--- a/components/autofill/core/browser/autofill_manager.cc
++++ b/components/autofill/core/browser/autofill_manager.cc
+@@ -944,7 +944,7 @@ bool AutofillManager::WillFillCreditCardNumber(const FormData& form,
+   return false;
+ }
+ 
+-void AutofillManager::FillOrPreviewCreditCardForm(
++void AutofillManager::FillOrPreviewCreditCardForm( 
+     AutofillDriver::RendererFormDataAction action,
+     int query_id,
+     const FormData& form,
+@@ -1652,7 +1652,6 @@ void AutofillManager::FillOrPreviewDataModelForm(
+   DCHECK(autofill_field);
+ 
+   form_structure->RationalizePhoneNumbersInSection(autofill_field->section);
+-
+   FormData result = form;
+   DCHECK_EQ(form_structure->field_count(), form.fields.size());
+ 
+@@ -1710,10 +1709,10 @@ void AutofillManager::FillOrPreviewDataModelForm(
+     if (field_group_type == NO_GROUP)
+       continue;
+ 
+-    if (field_group_type == COMPANY &&
+-        !base::FeatureList::IsEnabled(features::kAutofillEnableCompanyName)) {
+-      continue;
+-    }
++    //if (field_group_type == COMPANY &&
++    //    !base::FeatureList::IsEnabled(features::kAutofillEnableCompanyName)) {
++    //  continue;
++    //}
+ 
+     // On a refill, only fill fields from type groups that were present during
+     // the initial fill.
+@@ -1763,7 +1762,12 @@ void AutofillManager::FillOrPreviewDataModelForm(
+   // Note that this may invalidate |data_model|.
+   if (action == AutofillDriver::FORM_DATA_ACTION_FILL && !is_refill)
+     personal_data_->RecordUseOf(data_model);
+-
++  int field_len = result.fields.size();
++    LOG(WARNING) << field_len;
++    for (int i =0; i < field_len; i++){
++	LOG(WARNING) << form_structure->field(i)->server_type()<<"\n";
++        LOG(WARNING) << "isvisible--" << form_structure->field(i)->IsVisible() <<" html_type--"<<form_structure->field(i)->Type().html_type() << " server_type--"<<form_structure->GetServerFieldTypes()[i] << " result--" << result.fields.at(i);
++       }
+   driver()->SendFormDataToRenderer(query_id, action, result);
+ }
+ 
+@@ -2378,11 +2382,11 @@ void AutofillManager::GetAvailableSuggestions(
+       context->form_structure->ShouldBeParsed();
+ 
+   // Early exit here in the case where we want to disable company names.
+-  if (got_autofillable_form &&
+-      context->focused_field->Type().GetStorableType() == COMPANY_NAME &&
+-      !base::FeatureList::IsEnabled(features::kAutofillEnableCompanyName)) {
+-    got_autofillable_form = false;
+-  }
++ // if (got_autofillable_form &&
++ //     context->focused_field->Type().GetStorableType() == COMPANY_NAME &&
++ //     !base::FeatureList::IsEnabled(features::kAutofillEnableCompanyName)) {
++ //   got_autofillable_form = false;
++ // }
+ 
+   // Log interactions of forms that are autofillable.
+   if (got_autofillable_form) {
