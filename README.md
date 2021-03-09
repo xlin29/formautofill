@@ -5,6 +5,7 @@
     - [Inter email address from multiple profiles](#Inter-email-address-from-multiple-profiles)
     - [Infer credit card number from 100k candidate values](#Infer-credit-card-number-from-100k-candidate-values)
     - [Infer phone number from 100k candidate values](#Infer-phone-number-from-100k-candidate-values)
+    - [Generate and distribute candidate values](#Generate-and-distribute-candidate-values)
 - [Extension](#Extension)
 - [Crawling](#Crawling)
     - [Patch](#Patch)
@@ -18,7 +19,7 @@ A novel, complicated side-channel attack that exploits browser’s autofill prev
 The demos are for **educational** and **demonstration** purposes only!
 
 ### Installation
-The attack_demos folder needs to be uploaded to the public folder on webserver.
+The **attack_demos** folder needs to be uploaded to the public folder on webserver.
 
 ### Inter email address from multiple profiles
 
@@ -84,6 +85,15 @@ Set the phone number between [1234000000 - 1234100866].
 2. Visit the page at  http://yourdomain.com/attack_demos/preview_phone.html
 
 3. Click the input field and mouse over the profile. There are a few seconds delay before the page shows the result, depending on the device.
+### Generate and distribute candidate values
+1. generate and distribute 40k email addresses to 199 &lt;select> elements. 
+```python
+python3 menu_generator_py/generate_html.py
+```
+2. generate and distribute 100k phone numbers to 198 &lt;select> elements.
+```python
+python3 menu_generator_py/generate_html_phone.py
+```
 
 ## Extension
 A chrome extension that detects autofillable, hidden elements in a visitied page. It shows a warning message on **lax mode**, and remove these hidden elements on **strict mode**.
