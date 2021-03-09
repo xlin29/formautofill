@@ -88,13 +88,16 @@ Set the phone number between [1234000000 - 1234100866].
 ### Generate and distribute candidate values
 1. generate and distribute 40k email addresses to 199 &lt;select> elements. 
 ```python
-python3 menu_generator_py/generate_html.py
+python3 attack_demos/menu_generator_py/generate_html.py
 ```
 2. generate and distribute 100k phone numbers to 198 &lt;select> elements.
 ```python
-python3 menu_generator_py/generate_html_phone.py
+python3 attack_demos/menu_generator_py/generate_html_phone.py
 ```
-
+3. generate and distribute 100k credit card numbers to 198 &lt;select> elements.
+```python
+python3 attack_demos/menu_generator_py/generate_html_cc.py
+```
 ## Extension
 A chrome extension that detects autofillable, hidden elements in a visitied page. It shows a warning message on **lax mode**, and remove these hidden elements on **strict mode**.
 
