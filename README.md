@@ -27,7 +27,7 @@ multiple_emails.html: obtain the email addresses from multiple profiles in the a
 
 The page infers the email address from 40,463 candidate values.
 
-Affected browsers: all Chromium-based browsers.
+Affected browsers: prior to 89.0.4389.72.
 
 Affected versions: all.
 
