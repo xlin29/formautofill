@@ -73,7 +73,7 @@ fetch('input_cc100k.txt')
 .then(response => response.text())
 .then(text => drop_down.innerHTML=text)
 
-fetch('dict_cc100k.json')
+fetch('dict_cc.json')
 .then(response => response.json())
 .then(jsonResponse => items = jsonResponse)
 
