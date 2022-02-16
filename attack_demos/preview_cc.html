@@ -166,10 +166,9 @@ intervalId = setInterval(function(){
     break;
   }
   }
-
 if (matched){
-    var time_diff = end();
-    result.innerHTML = 'Matched value: 41234567890'+ matched +',  Matched menu IDs: '+ results + ', Elapsed time: ' + time_diff + 's';
+  var time_diff = end();
+  result.innerHTML = `Matched value is  41234567890${matched.padStart(5,'0')},  Matched menu IDs are [${results}],  Elapsed time: ${time_diff} s.`;
   matched_flag = 1;
   clearInterval(intervalId);
 }
