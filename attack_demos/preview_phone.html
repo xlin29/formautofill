@@ -148,7 +148,7 @@ intervalId = setInterval(function(){
 
   if (matched){
     var time_diff = end();
-      result.innerHTML = 'Matched value is  12345'+ matched +',  Matched menu IDs are '+results + ', Elapsed time: ' + time_diff + 's';
+      result.innerHTML = `Matched value is  1234${matched.padStart(6,'0')},  Matched menu IDs are [${results}],  Elapsed time: ${time_diff} s.`;
     matched_flag = 1;
     clearInterval(intervalId);
   }
